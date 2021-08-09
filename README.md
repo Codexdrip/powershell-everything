@@ -52,6 +52,42 @@ Format-Custom
 ### Alias
 Get-Alias -Definition Get-Command, Get-Member
 
+### Arrays
+$array = @(1,2,3,5,7,11)  
+foreach($item in $array)  
+{  
+    Write-Output $item  
+}  
+  
+Write-Output $array[3]  
+$array[2] = 13
+
+### Hashtables
+$ageList = @{}  
+$key = 'Kevin'  
+$value = 36  
+$ageList.add( $key, $value )  
+$ageList.add( 'Alex', 9 )  
+$ageList['Kevin']  
+$ageList['Alex']  
+$ageList['Alex'] = 9
+##### Lookup table
+$environments = @{  
+    Prod = 'SrvProd05'  
+    QA   = 'SrvQA02'  
+    Dev  = 'SrvDev12'  
+}  
+  
+$server = $environments[$env]  
+#### Iterating hashtables
+$ageList | Measure-Object  
+$ageList.count  
+$ageList.keys | ForEach-Object{  
+    $message = '{0} is {1} years old!' -f $_,   $ageList[$_]  
+    Write-Output $message  
+}
+
+
 
 ### Providers
 #### A provider in PowerShell is an interface that allows file system like access to a datastore. There are a number of built-in providers in PowerShell.
@@ -327,3 +363,7 @@ function Get-MrAutoStoppedService {
 
 ### Begin & End blocks
 BEGIN and END blocks are optional. BEGIN would be specified before the PROCESS block and is used to perform any initial work prior to the items being received from the pipeline. This is important to understand. Values that are piped in are not accessible in the BEGIN block. The END block would be specified after the PROCESS block and is used for cleanup once all of the items that are piped in have been processed.
+
+### Creating Modules
+Save functions in a .psm1 file and save the file in a location specified in $env:PSModulePath
+Import-Module C:\MyScriptModule.psm1
