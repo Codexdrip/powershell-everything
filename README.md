@@ -57,50 +57,50 @@ Get-PSDrive
 
 ### Loops
 #### ForEach-Object (Used to loop through pipes)  
-'ActiveDirectory', 'SQLServer' |
-   ForEach-Object {Get-Command -Module $_} |
-     Group-Object -Property ModuleName -NoElement |
-         Sort-Object -Property Count -Descending  
+'ActiveDirectory', 'SQLServer' |  
+   ForEach-Object {Get-Command -Module $_} |  
+     Group-Object -Property ModuleName   -NoElement |  
+         Sort-Object -Property Count   -Descending    
 
 #### foreach (When using the foreach keyword, you must store all of the items in memory before iterating through)
-$ComputerName = 'DC01', 'WEB01'
-foreach ($Computer in $ComputerName) {
-  Get-ADComputer -Identity $Computer
+$ComputerName = 'DC01', 'WEB01'  
+foreach ($Computer in $ComputerName) {  
+  Get-ADComputer -Identity $Computer  
 }  
 
 #### also allowable in some cases
 'DC01', 'WEB01' | Get-ADComputer  
 
 #### For loop
-for ($i = 1; $i -lt 5; $i++) {
-  Write-Output "Sleeping for $i seconds"
-  Start-Sleep -Seconds $i
+for ($i = 1; $i -lt 5; $i++) {  
+  Write-Output "Sleeping for $i seconds"  
+  Start-Sleep -Seconds $i  
 }  
 
 #### Do loop 
 ##### Do Until runs while the specified condition is false.
-$number = Get-Random -Minimum 1 -Maximum 10
-do {
-  $guess = Read-Host -Prompt "What's your guess?"
-  if ($guess -lt $number) {
-    Write-Output 'Too low!'
-  }
-  elseif ($guess -gt $number) {
-    Write-Output 'Too high!'
-  }
-}
+$number = Get-Random -Minimum 1 -Maximum 10  
+do {  
+  $guess = Read-Host -Prompt "What's your   guess?"  
+  if ($guess -lt $number) {  
+    Write-Output 'Too low!'  
+  }  
+  elseif ($guess -gt $number) {  
+    Write-Output 'Too high!'  
+  }  
+}  
 until ($guess -eq $number)  
 ##### Do While is just the opposite. It runs as long as the specified condition evaluates to true.
-$number = Get-Random -Minimum 1 -Maximum 10
-do {
-  $guess = Read-Host -Prompt "What's your guess?"
-  if ($guess -lt $number) {
-    Write-Output 'Too low!'
-  } elseif ($guess -gt $number) {
-    Write-Output 'Too high!'
-  }
-}
-while ($guess -ne $number)
+$number = Get-Random -Minimum 1 -Maximum 10  
+do {  
+  $guess = Read-Host -Prompt "What's your   guess?"  
+  if ($guess -lt $number) {  
+    Write-Output 'Too low!'  
+  } elseif ($guess -gt $number) {  
+    Write-Output 'Too high!'  
+  }  
+}  
+while ($guess -ne $number)  
 
 
 
