@@ -16,6 +16,7 @@ Update-Help
 Get-Command -Noun Process 
 Get-Command -Noun CMI*   
 Get-Command -Name *service*  
+Get-Command -ParameterName ComputerName  
 Get-Command | Get-Random | Get-Help -Full  
 Get-Command -Module ActiveDirectory
 ##### Once you know what type of object a command produces, you can use this information to find commands that accept that type of object as input.
@@ -117,10 +118,27 @@ Select-Object -ExpandProperty SerialNumber
 OR  
 (Get-CimInstance -ClassName Win32_BIOS -Property SerialNumber).SerialNumber
 
-### Query Remote Computers with the CIM cmdlets
+#### Query Remote Computers with the CIM cmdlets
 $CimSession = New-CimSession -ComputerName dc01 -Credential (Get-Credential)  
 ##### Now we can use that session to query remote computers
 Get-CimInstance -CimSession $CimSession -ClassName Win32_BIOS
 ##### Close session
-Get-CimSession | Remove-CimSession
+Get-CimSession | Remove-CimSession  
 
+### Remoting
+Enable-PSRemoting  
+#### For one-to-one remoting we can use Enter-PSSession
+$Cred = Get-Credential  
+Enter-PSSession -ComputerName dc01 -Credential $Cred  
+Exit-PSSession
+#### For one-to-multiple remoting we can use Invoke-Command
+$Cred = Get-Credential  
+Invoke-Command -ComputerName dc01, sql02, web01 {Get-Service -Name W32time} -Credential $Cred 
+Invoke-Command -ComputerName dc01, sql02, web01 {(Get-Service -Name W32time).Stop()} -Credential $Cred  
+Invoke-Command -ComputerName dc01, sql02, web01 {Get-Service -Name W32time} -Credential $Cred  
+#### We can kill overhead by creating one session instead of multiple instances
+$Session = New-PSSession -ComputerName dc01, sql02, web01 -Credential $Cred  
+Invoke-Command -Session $Session {(Get-Service -Name W32time).Start()}  
+Invoke-Command -Session $Session {Get-Service -Name W32time}  
+#### End session
+Get-PSSession | Remove-PSSession
