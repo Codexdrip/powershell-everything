@@ -16,6 +16,8 @@ Update-Help
 Get-Command -Noun Process 
 Get-Command -Noun CMI*   
 Get-Command -Name *service*  
+Get-Command -Name Test-MrCmdletBinding -Syntax  
+(Get-Command -Name Test-MrCmdletBinding).Parameters.Keys  
 Get-Command -ParameterName ComputerName  
 Get-Command | Get-Random | Get-Help -Full  
 Get-Command -Module ActiveDirectory
@@ -142,3 +144,22 @@ Invoke-Command -Session $Session {(Get-Service -Name W32time).Start()}
 Invoke-Command -Session $Session {Get-Service -Name W32time}  
 #### End session
 Get-PSSession | Remove-PSSession
+
+### Naming Convention
+Get-Verb | Sort-Object -Property Verb
+
+### Functions
+function Get-Version {   
+    $PSVersionTable.PSVersion  
+}
+#### Adv. Function w/Common Params
+function Test-MrSupportsShouldProcess {  
+
+    [CmdletBinding(SupportsShouldProcess)]  
+    param (  
+        $ComputerName  
+    )  
+  
+    Write-Output $ComputerName  
+  
+}  
