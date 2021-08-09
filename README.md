@@ -17,7 +17,7 @@ Get-Command -Noun Process
 Get-Command -Name *service*  
 Get-Command | Get-Random | Get-Help -Full  
 Get-Command -Module ActiveDirectory
-#### Once you know what type of object a command produces, you can use this information to find commands that accept that type of object as input.
+##### Once you know what type of object a command produces, you can use this information to find commands that accept that type of object as input.
 Get-Command -ParameterType ServiceController 
 
 
