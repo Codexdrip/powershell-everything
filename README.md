@@ -163,3 +163,39 @@ function Test-MrSupportsShouldProcess {
     Write-Output $ComputerName  
   
 }  
+#### Function with mandatory param
+function Test-MrParameterValidation {
+
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [string]$ComputerName
+    )
+
+    Write-Output $ComputerName
+
+}
+#### Function with array of params
+function Test-MrParameterValidation {
+
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [string[]]$ComputerName
+    )
+
+    Write-Output $ComputerName
+
+}
+#### Supply default param if one isn't given
+function Test-MrParameterValidation {
+
+    [CmdletBinding()]
+    param (
+        [ValidateNotNullOrEmpty()]
+        [string[]]$ComputerName = $env:COMPUTERNAME
+    )
+
+    Write-Output $ComputerName
+
+}
