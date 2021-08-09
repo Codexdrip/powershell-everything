@@ -100,7 +100,14 @@ do {
     Write-Output 'Too high!'  
   }  
 }  
-while ($guess -ne $number)  
+while ($guess -ne $number)
+
+#### While loop
+$date = Get-Date -Date 'November 22'  
+while ($date.DayOfWeek -ne 'Thursday') {  
+    $date = $date.AddDays(1)  
+}  
+Write-Output $date  
 
 
 
