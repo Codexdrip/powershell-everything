@@ -199,3 +199,131 @@ function Test-MrParameterValidation {
     Write-Output $ComputerName
 
 }
+#### Make verbose comments instead of inline comments for easier debugging
+function Test-MrVerboseOutput {
+
+    [CmdletBinding()]
+    param (
+        [ValidateNotNullOrEmpty()]
+        [string[]]$ComputerName = $env:COMPUTERNAME
+    )
+
+    foreach ($Computer in $ComputerName) {
+        Write-Verbose -Message "Attempting to perform some action on $Computer"
+        Write-Output $Computer
+    }
+
+}  
+##### Then call the function like so...
+Test-MrVerboseOutput -ComputerName Server01, Server02 -Verbose
+
+
+#### Accept pipeline input by property name
+function Test-MrPipelineInput {
+
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory,
+                   ValueFromPipelineByPropertyName)]
+        [string[]]$ComputerName
+    )
+
+    PROCESS {
+            Write-Output $ComputerName
+    }
+
+}
+#### Accept pipeline input by value (type)
+function Test-MrPipelineInput {
+
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory,
+                   ValueFromPipeline)]
+        [string[]]$ComputerName
+    )
+
+    PROCESS {
+        Write-Output $ComputerName
+    }
+
+}
+
+### Exceptions
+function Test-MrErrorHandling {
+
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory,
+                   ValueFromPipeline,
+                   ValueFromPipelineByPropertyName)]
+        [string[]]$ComputerName
+    )
+
+    PROCESS {
+        foreach ($Computer in $ComputerName) {
+            try {
+                Test-WSMan -ComputerName $Computer -ErrorAction Stop
+            }
+            catch {
+                Write-Warning -Message "Unable to connect to Computer: $Computer"
+            }
+        }
+    }
+
+}
+
+### Comment-Based Help
+function Get-MrAutoStoppedService {
+
+<#
+.SYNOPSIS
+    Returns a list of services that are set to start automatically, are not
+    currently running, excluding the services that are set to delayed start.
+
+.DESCRIPTION
+    Get-MrAutoStoppedService is a function that returns a list of services from
+    the specified remote computer(s) that are set to start automatically, are not
+    currently running, and it excludes the services that are set to start automatically
+    with a delayed startup.
+
+.PARAMETER ComputerName
+    The remote computer(s) to check the status of the services on.
+
+.PARAMETER Credential
+    Specifies a user account that has permission to perform this action. The default
+    is the current user.
+
+.EXAMPLE
+     Get-MrAutoStoppedService -ComputerName 'Server1', 'Server2'
+
+.EXAMPLE
+     'Server1', 'Server2' | Get-MrAutoStoppedService
+
+.EXAMPLE
+     Get-MrAutoStoppedService -ComputerName 'Server1' -Credential (Get-Credential)
+
+.INPUTS
+    String
+
+.OUTPUTS
+    PSCustomObject
+
+.NOTES
+    Author:  Mike F Robbins
+    Website: http://mikefrobbins.com
+    Twitter: @mikefrobbins
+#>
+
+    [CmdletBinding()]
+    param (
+
+    )
+
+    #Function Body
+
+}
+
+
+### Begin & End blocks
+BEGIN and END blocks are optional. BEGIN would be specified before the PROCESS block and is used to perform any initial work prior to the items being received from the pipeline. This is important to understand. Values that are piped in are not accessible in the BEGIN block. The END block would be specified after the PROCESS block and is used for cleanup once all of the items that are piped in have been processed.
