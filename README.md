@@ -3,14 +3,14 @@
 ## Core Commands
 
 ### Help
-Get-Help -Name Get-Command -Full
-Get-Help -Name Get-Command -Detailed
-Get-Help -Name Get-Command -Examples
-Get-Help -Name Get-Command -Online
-Get-Help -Name Get-Command -Parameter Noun
-Get-Help -Name Get-Command -ShowWindow
-help *process*
-Update-Help
+Get-Help -Name Get-Command -Full  
+Get-Help -Name Get-Command -Detailed  
+Get-Help -Name Get-Command -Examples  
+Get-Help -Name Get-Command -Online  
+Get-Help -Name Get-Command -Parameter Noun  
+Get-Help -Name Get-Command -ShowWindow  
+help *process*  
+Update-Help  
 
 ### Locate Commands
 Get-Command -Noun Process
