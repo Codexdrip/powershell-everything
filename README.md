@@ -13,7 +13,8 @@ help *process*
 Update-Help  
 
 ### Locate Commands
-Get-Command -Noun Process  
+Get-Command -Noun Process 
+Get-Command -Noun CMI*   
 Get-Command -Name *service*  
 Get-Command | Get-Random | Get-Help -Full  
 Get-Command -Module ActiveDirectory
@@ -109,6 +110,17 @@ while ($date.DayOfWeek -ne 'Thursday') {
 }  
 Write-Output $date  
 
+### CIM module
+Get-Command -Module CimCmdlets  
+Get-CimInstance -ClassName Win32_BIOS -Property SerialNumber |
+Select-Object -ExpandProperty SerialNumber  
+OR  
+(Get-CimInstance -ClassName Win32_BIOS -Property SerialNumber).SerialNumber
 
-
+### Query Remote Computers with the CIM cmdlets
+$CimSession = New-CimSession -ComputerName dc01 -Credential (Get-Credential)  
+##### Now we can use that session to query remote computers
+Get-CimInstance -CimSession $CimSession -ClassName Win32_BIOS
+##### Close session
+Get-CimSession | Remove-CimSession
 
