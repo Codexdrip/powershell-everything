@@ -48,7 +48,6 @@ Format-Table
 Format-List  
 Format-Wide  
 Format-Custom
-
 ### Alias
 Get-Alias -Definition Get-Command, Get-Member
 
@@ -57,8 +56,7 @@ $array = @(1,2,3,5,7,11)
 foreach($item in $array)  
 {  
     Write-Output $item  
-}  
-  
+}   
 Write-Output $array[3]  
 $array[2] = 13
 
@@ -77,7 +75,6 @@ $environments = @{
     QA   = 'SrvQA02'  
     Dev  = 'SrvDev12'  
 }  
-  
 $server = $environments[$env]  
 #### Iterating hashtables
 $ageList | Measure-Object  
@@ -85,8 +82,38 @@ $ageList.count
 $ageList.keys | ForEach-Object{  
     $message = '{0} is {1} years old!' -f $_,   $ageList[$_]  
     Write-Output $message  
+}  
+$ageList.GetEnumerator() | ForEach-Object{  
+    $message = '{0} is {1} years old!' -f $_.key, $_.value  
+    Write-Output $message  
 }
-
+#### Checking Hashtable for key/vals
+if( $person.age -ne $null ){...}  
+if( $person.ContainsKey('age') ){...}  
+#### Remove/Clear keys
+$person.remove('age')
+$person.clear()
+#### Dynamic assignments
+$property = @{ 
+    name = 'totalSpaceGB'  
+    expression = { ($_.used + $_.free) / 1GB }  
+}  
+$drives = Get-PSDrive | Where Used  
+$drives | Select-Object -Property name, $property
+#### Splatting
+##### Instead of saying on one line... 
+Add-DhcpServerv4Scope -Name 'TestNetwork' -StartRange'10.0.0.2' -EndRange '10.0.0.254' -SubnetMask '255.255.255.0' -Description 'Network for testlab A' -LeaseDuration (New-TimeSpan -Days 8) -Type "Both"  
+##### We can do splatting...
+$DHCPScope = @{  
+    Name        = 'TestNetwork'  
+    StartRange  = '10.0.0.2'  
+    EndRange    = '10.0.0.254'  
+    SubnetMask  = '255.255.255.0'  
+    Description = 'Network for testlab A'  
+    LeaseDuration = (New-TimeSpan -Days 8)  
+    Type = "Both"  
+}  
+Add-DhcpServerv4Scope @DHCPScope
 
 
 ### Providers
