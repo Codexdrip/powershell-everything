@@ -51,6 +51,14 @@ Format-Custom
 ### Alias
 Get-Alias -Definition Get-Command, Get-Member
 
+### Formatting
+'{0}, age {1}, is in {2}' -f $name, $person.age, $person.city
+
+### Saving to files
+| Export-CSV -Path $path  
+| Out-file -filepath $path 
+
+
 ### Arrays
 $array = @(1,2,3,5,7,11)  
 foreach($item in $array)  
@@ -114,7 +122,48 @@ $DHCPScope = @{
     Type = "Both"  
 }  
 Add-DhcpServerv4Scope @DHCPScope
-
+##### Splatting optional params
+$CIMParams = @{  
+    ClassName = 'Win32_Bios'  
+    ComputerName = $ComputerName  
+}  
+if($Credential)  
+{  
+    $CIMParams.Credential = $Credential  
+}  
+Get-CIMInstance @CIMParams
+#### Nested Hashtables
+$person = @{  
+    name = 'Kevin'  
+    age  = 36  
+    location = @{  
+        city  = 'Austin'  
+        state = 'TX'  
+    }  
+}  
+##### OR
+$people = @{  
+    Kevin = @{  
+        age  = 36  
+        city = 'Austin'  
+    }  
+    Alex = @{  
+        age  = 9  
+        city = 'Austin'  
+    }  
+}  
+#### Convert to Json
+$people | ConvertTo-Json   
+{  
+    "Kevin":  {  
+                "age":  36,  
+                "city":  "Austin"  
+            },  
+    "Alex":  {  
+                "age":  9,  
+                "city":  "Austin"  
+            }  
+}  
 
 ### Providers
 #### A provider in PowerShell is an interface that allows file system like access to a datastore. There are a number of built-in providers in PowerShell.
