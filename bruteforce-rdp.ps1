@@ -162,7 +162,6 @@ function Get-UnathorizedAttempts {
     
 }
 
-
 Get-UnathorizedAttempts -RuleName $FirewallDisplayName -NumOfHours $HoursToQuery
 
 
