@@ -441,21 +441,21 @@ function Get-MrAutoStoppedService {
 BEGIN and END blocks are optional. BEGIN would be specified before the PROCESS block and is used to perform any initial work prior to the items being received from the pipeline. This is important to understand. Values that are piped in are not accessible in the BEGIN block. The END block would be specified after the PROCESS block and is used for cleanup once all of the items that are piped in have been processed.
 
 ### Creating Modules
-Create a folder named MyModule
-Create a file called MyModule.psm1 in that folder to hold your functions
-Use New-ModuleManifest to create a MyModule.psd1 in that folder for the metadata
-Update the ModuleRoot and FunctionsToExport properties in the MyModule.psd1
-Save functions in a .psm1 file and save the file in a location specified in $env:PSModulePath
-Import-Module C:\MyScriptModule.psm1
+Create a folder named MyModule   
+Create a file called MyModule.psm1 in that folder to hold your functions   
+Use New-ModuleManifest to create a MyModule.psd1 in that folder for the metadata   
+Update the ModuleRoot and FunctionsToExport properties in the MyModule.psd1   
+Save functions in a .psm1 file and save the file in a location specified in $env:PSModulePath   
+Import-Module C:\MyScriptModule.psm1   
 
 
 ### Background Jobs
-Start-Job -ScriptBlock { Get-Process -Name pwsh }
+Start-Job -ScriptBlock { Get-Process -Name pwsh }   
 Receive-Job -Id 1
 
 $jobWRM = Invoke-Command -ComputerName (Get-Content -Path C:\Servers.txt) -ScriptBlock {Get-Service -Name WinRM } -JobName WinRM -ThrottleLimit 16 -AsJob
    
-$j = Start-Job -ScriptBlock { Get-WinEvent -Log System } -Credential Domain01\User01
+$j = Start-Job -ScriptBlock { Get-WinEvent -Log System } -Credential Domain01\User01   
 $j | Select-Object -Property *
 
 #### Run script as job
