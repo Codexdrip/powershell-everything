@@ -245,6 +245,8 @@ Enable-PSRemoting
 $Cred = Get-Credential  
 Enter-PSSession -ComputerName dc01 -Credential $Cred  
 Exit-PSSession
+#### Arguments   
+Invoke-Command -ComputerName WEBSRV1 -ScriptBlock { param($foo) & $foo } -ArgumentList $InstallerFilePath
 #### For one-to-multiple remoting we can use Invoke-Command
 $Cred = Get-Credential  
 Invoke-Command -ComputerName dc01, sql02, web01 {Get-Service -Name W32time} -Credential $Cred 
