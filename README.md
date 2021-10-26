@@ -261,7 +261,7 @@ Get-PSSession | Remove-PSSession
 
 ### Naming Convention
 Get-Verb | Sort-Object -Property Verb
-
+k
 ### Functions
 function Get-Version {   
     $PSVersionTable.PSVersion  
@@ -460,5 +460,10 @@ $jobWRM = Invoke-Command -ComputerName (Get-Content -Path C:\Servers.txt) -Scrip
 $j = Start-Job -ScriptBlock { Get-WinEvent -Log System } -Credential Domain01\User01   
 $j | Select-Object -Property *
 
-#### Run script as job
-Start-Job -FilePath C:\Scripts\Sample.ps1
+#### Run script as job   
+Start-Job -FilePath C:\Scripts\Sample.ps1    
+   
+   
+### Dates   
+Find diff between two dates   
+(NEW-TIMESPAN -Start $c.LastLogonDate -End (Get-Date)) | select Days, Hours, Minutes
