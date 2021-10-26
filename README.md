@@ -107,7 +107,9 @@ $property = @{
     expression = { ($_.used + $_.free) / 1GB }  
 }  
 $drives = Get-PSDrive | Where Used  
-$drives | Select-Object -Property name, $property
+$drives | Select-Object -Property name, $property    
+#### Select Expressions   
+get-ADuser -Identity "clazo" -Properties lastLogonDate | select LastLogonDate, @{l="Details"; e={((NEW-TIMESPAN –Start $_.LastLogonDate -End (Get-Date)) | select Days, Hours, Minutes)}}
 #### Splatting
 ##### Instead of saying on one line... 
 Add-DhcpServerv4Scope -Name 'TestNetwork' -StartRange'10.0.0.2' -EndRange '10.0.0.254' -SubnetMask '255.255.255.0' -Description 'Network for testlab A' -LeaseDuration (New-TimeSpan -Days 8) -Type "Both"  
